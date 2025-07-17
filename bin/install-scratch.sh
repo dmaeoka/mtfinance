@@ -22,10 +22,6 @@ echo "Pushing source..." && \
 sf project deploy start && \
 echo "" && \
 
-echo "Assigning permission sets..." && \
-sf org assign permset -n mtfinance && \
-echo "" && \
-
 echo "Importing sample data..." && \
 sf data tree import -p data/sample-data-plan.json && \
 echo "" && \
