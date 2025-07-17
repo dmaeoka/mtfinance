@@ -4,12 +4,12 @@
     <description>A master-detail or lookup relationship to the Loan__c object, associating the charge with its respective loan.</description>
     <label>Loan</label>
     <referenceTo>Loan__c</referenceTo>
-    <relationshipLabel>Loans Charge</relationshipLabel>
+    <relationshipLabel>Loan Charges</relationshipLabel>
     <relationshipName>Loans_Charge</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>MasterDetail</type>
-    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    <writeRequiresMasterRead>true</writeRequiresMasterRead>
 </CustomField>
