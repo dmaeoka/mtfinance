@@ -14,6 +14,14 @@
             <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
+        <sections>
+            <label><!-- Total --></label>
+            <section>Total</section>
+        </sections>
     </layouts>
     <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Only Person Accounts can be selected --></errorMessage>
+        <name>Only_Person_Account</name>
+    </validationRules>
 </CustomObjectTranslation>

@@ -6,7 +6,18 @@
     </caseValues>
     <caseValues>
         <plural>true</plural>
-        <value>Loans Charge</value>
+        <value>Loan Charges</value>
     </caseValues>
+    <layouts>
+        <layout>Loan Charge Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
     <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Charge records cannot be edited after they have been created --></errorMessage>
+        <name>Prevent_Loan_Charge_Edits</name>
+    </validationRules>
 </CustomObjectTranslation>

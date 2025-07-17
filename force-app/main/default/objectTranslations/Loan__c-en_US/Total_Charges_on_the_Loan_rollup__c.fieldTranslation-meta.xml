@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label><!-- Loan --></label>
-    <name>Loan__c</name>
-    <relationshipLabel><!-- Loan Charges --></relationshipLabel>
+    <label><!-- Total Charges on Loan - Roll-up --></label>
+    <name>Total_Charges_on_the_Loan_rollup__c</name>
 </CustomFieldTranslation>
