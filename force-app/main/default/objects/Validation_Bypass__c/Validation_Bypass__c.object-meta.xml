@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>Test if it&apos;s test suit</description>
+    <enableFeeds>false</enableFeeds>
+    <label>Validation Bypass</label>
+    <visibility>Public</visibility>
+</CustomObject>
