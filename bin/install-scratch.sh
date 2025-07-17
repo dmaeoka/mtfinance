@@ -26,20 +26,8 @@ echo "Importing sample data..." && \
 sf data tree import -p data/sample-data-plan.json && \
 echo "" && \
 
-echo "Sleeping 30s for XP Cloud deployment..." && \
-sleep 30 && \
-echo "" && \
-
-echo "Publishing XP Cloud site..." && \
-sf community publish -n MT-Finance && \
-echo "" && \
-
-echo "Deploying guest profile for XP Cloud site..." && \
-sf project deploy start --metadata-dir=guest-profile-metadata -w 10 && \
-echo "" && \
-
 echo "Opening org..." && \
-sf org open -p lightning/n/Product_Explorer && \
+sf org open -p lightning/o/Account/list?filterName=Person_Account && \
 echo ""
 
 EXIT_CODE="$?"

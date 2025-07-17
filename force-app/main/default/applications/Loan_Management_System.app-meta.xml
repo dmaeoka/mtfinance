@@ -17,5 +17,4 @@
     <tabs>standard-Account</tabs>
     <tabs>Loan__c</tabs>
     <uiType>Lightning</uiType>
-    <utilityBar>Loan_Management_System_UtilityBar</utilityBar>
 </CustomApplication>
