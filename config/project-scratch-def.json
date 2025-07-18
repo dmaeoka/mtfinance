@@ -1,7 +1,7 @@
 {
   "orgName": "diego.maeoka company",
   "edition": "Developer",
-  "features": ["Communities", "EnableSetPasswordInApi", "PersonAccounts"],
+  "features": ["Communities", "EnableSetPasswordInApi", "PersonAccounts", "DebugApex"],
   "settings": {
     "communitiesSettings": {
       "enableNetworksEnabled": true
