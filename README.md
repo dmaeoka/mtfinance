@@ -1,5 +1,33 @@
 # **Salesforce Technical Test**
 
+# Initializing the project
+- First make sure to authorize a dev hub
+- Run the commands one by one
+
+### Delete any previous org
+```
+sf org delete scratch -p -o mtfinance
+```
+### Create the scratch org
+```
+sf org create scratch -f config/project-scratch-def.json -a mtfinance -d -y 7
+```
+### Deploy the project
+```
+sf project deploy start
+```
+### Import some sample data
+```
+sf data tree import -p data/sample-data-plan.json
+```
+### Open the scratch org
+```
+sf org open -p lightning/o/Account/list?filterName=Person_Account
+```
+
+
+
+
 ## **Scenario: Loan Management System**
 
 The Asset Management team at a finance firm utilizes Salesforce to manage their loan portfolio. To streamline this process, they have implemented two custom objects: Loan and Loan\_Charge\_\_c.
