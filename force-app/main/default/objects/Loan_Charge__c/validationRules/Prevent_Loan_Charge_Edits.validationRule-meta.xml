@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Prevent_Loan_Charge_Edits</fullName>
-    <active>true</active>
-    <errorConditionFormula>NOT(ISNEW()) &amp;&amp; NOT($Setup.Validation_Bypass__c.Bypass_Validation__c)</errorConditionFormula>
-    <errorMessage>Charge records cannot be edited after they have been created</errorMessage>
-</ValidationRule>
