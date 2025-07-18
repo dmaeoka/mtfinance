@@ -88,8 +88,6 @@ public without sharing class LoanChargeTriggerHandler {
       loanIds.add(charge.Loan__c);
     }
 
-    System.debug('loanIds.keySet(): ' + loanIds.keySet());
-
     // First: Extend the 'Release Charge' date.
     this.extendReleaseChargeDate(loanIds);
 
