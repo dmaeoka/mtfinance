@@ -1,6 +1,7 @@
 public without sharing class LoanChargeTriggerHandler {
   private final List<Loan_Charge__c> newCharges;
   private final Map<Id, Loan_Charge__c> oldChargesMap;
+  public static final String RELEASE_CHARGE = 'Release Charge';
 
   /**
    * @description Constructor that accepts the trigger context variables.
@@ -48,7 +49,7 @@ public without sharing class LoanChargeTriggerHandler {
 
     // Collect Loan ids for new charges that are of type 'Release Charge'.'
     for (Loan_Charge__c newCharge : this.newCharges) {
-      if (newCharge.Charge_Type__c == 'Release Charge' && newCharge.Loan__c != null) {
+      if (newCharge.Charge_Type__c == RELEASE_CHARGE && newCharge.Loan__c != null) {
         loanIdsToCheck.add(newCharge.Loan__c);
       }
     }
@@ -67,7 +68,8 @@ public without sharing class LoanChargeTriggerHandler {
       // By adding the query results to a Set, we get an efficient way to check for existence.
       Set<Id> loansWithExistingReleaseCharge = new Map<Id, SObject>([
           SELECT Loan__c FROM Loan_Charge__c
-          WHERE Loan__c IN :loanIdsToCheck AND Charge_Type__c = 'Release Charge'
+          WHERE Loan__c IN :loanIdsToCheck
+          AND Charge_Type__c = :RELEASE_CHARGE
       ]).keySet();
 
       // If there is a any new 'Release Charge', throw an error
@@ -140,7 +142,7 @@ public without sharing class LoanChargeTriggerHandler {
     // Create a list of charges to check.
     List<Loan_Charge__c> chargesToCheck = new List<Loan_Charge__c>();
     for (Loan_Charge__c newCharge : this.newCharges) {
-      if (newCharge.Charge_Type__c != 'Release Charge') {
+      if (newCharge.Charge_Type__c != RELEASE_CHARGE) {
         chargesToCheck.add(newCharge);
       }
     }
@@ -156,7 +158,8 @@ public without sharing class LoanChargeTriggerHandler {
     for (Loan_Charge__c rc : [
       SELECT Id, Loan__c, Date__c
       FROM Loan_Charge__c
-      WHERE Loan__c IN :loanIds AND Charge_Type__c = 'Release Charge'
+      WHERE Loan__c IN :loanIds
+      AND Charge_Type__c = :RELEASE_CHARGE
     ]) {
       existingReleaseCharges.put(rc.Loan__c, rc);
     }

@@ -1,6 +1,8 @@
 public without sharing class LoanTriggerHandler {
   private final List<Loan__c> newLoans;
   private final Map<Id, Loan__c> oldLoansMap;
+  public static final String RELEASE_CHARGE = 'Release Charge';
+  public static final String ADMIN_FEE = 'Admin Fee';
 
   /**
    * @description trigger context variables.
@@ -42,7 +44,7 @@ public without sharing class LoanTriggerHandler {
         chargesToCreate.add(
           new Loan_Charge__c(
             Loan__c = loan.Id,
-            Charge_Type__c = 'Release Charge',
+            Charge_Type__c = RELEASE_CHARGE,
             Amount__c = 500,
             Date__c = releaseDate
           )
@@ -75,7 +77,7 @@ public without sharing class LoanTriggerHandler {
         adminFeesToCreate.add(
           new Loan_Charge__c(
             Loan__c = newLoan.Id,
-            Charge_Type__c = 'Admin Fee',
+            Charge_Type__c = ADMIN_FEE,
             Amount__c = 300,
             Date__c = Date.today()
           )
@@ -94,7 +96,7 @@ public without sharing class LoanTriggerHandler {
     for (Loan_Charge__c releaseCharge : [
       SELECT Id, Loan__c, Loan__r.Date_Loan_Issued__c, Loan__r.Term__c
       FROM Loan_Charge__c
-      WHERE Loan__c IN :loansWithTermChangeIds AND Charge_Type__c = 'Release Charge'
+      WHERE Loan__c IN :loansWithTermChangeIds AND Charge_Type__c = :RELEASE_CHARGE
     ]) {
       System.debug('Adding ' + releaseCharge.Loan__r.Term__c + ' months');
       releaseCharge.Date__c = releaseCharge.Loan__r.Date_Loan_Issued__c.addMonths((Integer)releaseCharge.Loan__r.Term__c);
