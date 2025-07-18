@@ -74,7 +74,7 @@ public without sharing class LoanChargeTriggerHandler {
 
       // If there is a any new 'Release Charge', throw an error
       for (Loan_Charge__c newCharge : this.newCharges) {
-        if (newCharge.Charge_Type__c == 'Release Charge' && loansWithExistingReleaseCharge.contains(newCharge.Loan__c)) {
+        if (newCharge.Charge_Type__c == RELEASE_CHARGE && loansWithExistingReleaseCharge.contains(newCharge.Loan__c)) {
           newCharge.addError('Cannot create a second Release Charge. This loan already has one.');
         }
       }
