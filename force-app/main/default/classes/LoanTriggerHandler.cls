@@ -30,6 +30,7 @@ public without sharing class LoanTriggerHandler {
    * @description If it's a new loan then add a 500 charge to the loan.
    */
   private void onAfterInsert() {
+    System.debug('onAfterInsert add the release charge to the loan.');
     List<Loan_Charge__c> chargesToCreate = new List<Loan_Charge__c>();
 
     for (Loan__c loan : this.newLoans) {
@@ -50,6 +51,7 @@ public without sharing class LoanTriggerHandler {
     }
 
     if (!chargesToCreate.isEmpty() && Schema.sObjectType.Loan_Charge__c.isCreateable()) {
+      System.debug('If it\'s a new loan then add a 500 charge to the loan.');
       insert chargesToCreate;
     }
   }
@@ -58,6 +60,7 @@ public without sharing class LoanTriggerHandler {
    * @description Create the admin fee charge when the loan term is updated.
    */
   private void onAfterUpdate() {
+    System.debug('If the loan term is updated, create an admin fee charge.');
     List<Loan_Charge__c> adminFeesToCreate = new List<Loan_Charge__c>();
     Set<Id> loansWithTermChangeIds = new Set<Id>();
 
@@ -82,6 +85,7 @@ public without sharing class LoanTriggerHandler {
 
     // If no terms were changed, exit early.
     if (loansWithTermChangeIds.isEmpty()) {
+      System.debug('If no terms were changed, exit early.');
       return;
     }
 
@@ -92,15 +96,18 @@ public without sharing class LoanTriggerHandler {
       FROM Loan_Charge__c
       WHERE Loan__c IN :loansWithTermChangeIds AND Charge_Type__c = 'Release Charge'
     ]) {
+      System.debug('Adding ' + releaseCharge.Loan__r.Term__c + ' months');
       releaseCharge.Date__c = releaseCharge.Loan__r.Date_Loan_Issued__c.addMonths((Integer)releaseCharge.Loan__r.Term__c);
       releaseChargesToUpdate.add(releaseCharge);
     }
 
     if (!releaseChargesToUpdate.isEmpty() && Schema.sObjectType.Loan_Charge__c.isUpdateable()) {
+      System.debug('If the term was changed, update the release charge dates.');
       update releaseChargesToUpdate;
     }
 
     if (!adminFeesToCreate.isEmpty() && Schema.sObjectType.Loan_Charge__c.isCreateable()) {
+      System.debug('Insert admin fees.');
       insert adminFeesToCreate;
     }
   }

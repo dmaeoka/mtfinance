@@ -55,8 +55,11 @@ public without sharing class LoanChargeTriggerHandler {
 
     // No 'Release Charges' to validate, return.
     if (loanIdsToCheck.isEmpty()) {
+      System.debug('loanIdsToCheck is empty.');
       return;
     }
+
+    System.debug('loanIdsToCheck.size(): ' + loanIdsToCheck.size());
 
     // Test if Loan Charge object is accessible.
     if(Schema.sObjectType.Loan_Charge__c.isAccessible()){
@@ -84,6 +87,8 @@ public without sharing class LoanChargeTriggerHandler {
     for (Loan_Charge__c charge : this.newCharges) {
       loanIds.add(charge.Loan__c);
     }
+
+    System.debug('loanIds.keySet(): ' + loanIds.keySet());
 
     // First: Extend the 'Release Charge' date.
     this.extendReleaseChargeDate(loanIds);
@@ -115,6 +120,7 @@ public without sharing class LoanChargeTriggerHandler {
     Set<Id> loanIds = new Set<Id>();
     // Fetch the old loan Ids from the oldChargesMap.
     if (this.oldChargesMap == null) {
+      System.debug('oldChargesMap is empty.');
       return;
     }
     // In 'after delete', the records are in Trigger.old, which populates oldChargesMap.
@@ -129,9 +135,11 @@ public without sharing class LoanChargeTriggerHandler {
    * @param loanIds The set of Loan Ids to check.
    */
   private void extendReleaseChargeDate(Set<Id> loanIds) {
+
+    // Create a map of id and loan charge to update.
     Map<Id, Loan_Charge__c> releaseChargesToUpdate = new Map<Id, Loan_Charge__c>();
 
-    // We only care about newly inserted charges that are NOT of type 'Release Charge'.
+    // Create a list of charges to check.
     List<Loan_Charge__c> chargesToCheck = new List<Loan_Charge__c>();
     for (Loan_Charge__c newCharge : this.newCharges) {
       if (newCharge.Charge_Type__c != 'Release Charge') {
@@ -141,6 +149,7 @@ public without sharing class LoanChargeTriggerHandler {
 
     // If there are no charges to check, exit.
     if (chargesToCheck.isEmpty()) {
+      System.debug('chargesToCheck is empty.');
       return;
     }
 
@@ -169,6 +178,7 @@ public without sharing class LoanChargeTriggerHandler {
     }
 
     if (!releaseChargesToUpdate.isEmpty()) {
+      System.debug('Updating the Loan_Charge__c values');
       update releaseChargesToUpdate.values();
     }
   }
@@ -180,6 +190,7 @@ public without sharing class LoanChargeTriggerHandler {
    */
   private void updateLoanBalances(Set<Id> loanIds) {
       if (loanIds == null || loanIds.isEmpty()) {
+        System.debug('loanIds is empty.');
         return;
       }
 
@@ -188,12 +199,14 @@ public without sharing class LoanChargeTriggerHandler {
       Map<Id, Decimal> totalChargesMap = getTotalChargesByLoan(loanIds);
 
       if (!Schema.sObjectType.Loan__c.isUpdateable()) {
+        System.debug('Loan__c is not updatable');
         return;
       }
 
       List<Loan__c> loansToUpdate = prepareLoanUpdates(loanIds, totalChargesMap);
 
       if (!loansToUpdate.isEmpty()) {
+          System.debug('Updating loansToUpdate values');
           update loansToUpdate;
       }
   }
@@ -204,6 +217,7 @@ public without sharing class LoanChargeTriggerHandler {
    * @return A map of Loan Ids to their total charges.
    */
   private Map<Id, Decimal> getTotalChargesByLoan(Set<Id> loanIds) {
+      System.debug('Returning the total charge by loan');
       Map<Id, Decimal> result = new Map<Id, Decimal>();
       for (AggregateResult ar : [
           SELECT Loan__c, SUM(Amount__c) totalAmount
@@ -227,6 +241,8 @@ public without sharing class LoanChargeTriggerHandler {
    */
   private List<Loan__c> prepareLoanUpdates(Set<Id> loanIds, Map<Id, Decimal> totalChargesMap) {
       List<Loan__c> updates = new List<Loan__c>();
+      System.debug('List of loanIds to update:');
+
       for (Loan__c loan : [
           SELECT Id, Gross_Loan_Amount__c
           FROM Loan__c
